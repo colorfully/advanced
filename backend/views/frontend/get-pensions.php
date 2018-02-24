@@ -5,7 +5,7 @@ use yii\widgets\LinkPager;
     <blockquote class="blockquote">
         <p class="mb-0">历史领取记录</p>
     </blockquote>
-    <?php if($need_month==0){?>
+    <?php if($need_month==0&&$can_use){?>
     <button type="button" id="get_pension" class="btn btn-primary" style="float: right">领取养老金</button>
     <?php }?>
     <input name="_csrf-backend" type="hidden" id="_csrf" value="<?= Yii::$app->request->csrfToken ?>">

@@ -95,6 +95,11 @@ class GetPension extends \yii\db\ActiveRecord
         return $dataProvider;
     }
 
+    /**
+     * 获取领取养老金列表
+     * @param $id
+     * @return mixed
+     */
     public function getPensionsList($id)
     {
         $query = static::find()->where(['user_id' => $id]);
@@ -106,6 +111,11 @@ class GetPension extends \yii\db\ActiveRecord
         return $data;
     }
 
+    /**
+     * 保存领取养老金记录
+     * @param array $array
+     * @return bool
+     */
     public function savePensions($array=[])
     {
         $Recruitment=new GetPension();
@@ -113,5 +123,15 @@ class GetPension extends \yii\db\ActiveRecord
         $Recruitment->get_pension = $array['get_pension'];
         $Recruitment->create_time = date('Y-m-d H:i:s',time());
         return $Recruitment->save();
+    }
+
+    /**
+     * 获取最新的领取养老金记录
+     * @param $id
+     * @return GetPension|array|null
+     */
+    public function getLastGetPensions($id)
+    {
+        return static::find()->where(['user_id' => $id])->orderBy('create_time desc')->asArray()->one();
     }
 }

@@ -13,9 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="punishment-index">
 
 
-    <p>
-        <?= Html::a('创建奖惩信息', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,

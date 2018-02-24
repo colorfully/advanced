@@ -271,7 +271,17 @@ class FrontendController extends Controller
                 ];
                 (new CollectPensions())->savePensions($data);
                 $update_record = (new RecordPensions())::findOne(['user_id' => $user_id]);
-                $update_record->updateCounters(['all_pensions' => 1]); //更新已经提交的养老金月数
+                if(isset($update_record)){
+                    $update_record->updateCounters(['all_pensions' => 1]); //更新已经提交的养老金月数
+                }else{
+                    $create_record=new RecordPensions();
+                    $create_record->user_id=$this->user_id;
+                    $create_record->already_pensions=0;
+                    $create_record->all_pensions=1;
+                    $create_record->create_time=date('Y-m-d H:i:s',time());
+                    $create_record->save();
+                }
+
                 return json_encode('success');
             }
         }
@@ -290,6 +300,13 @@ class FrontendController extends Controller
         $RecordList=(new RecordPensions())->getRecordList($user_id);
         $RecordList['need_month']=$this->full_pension-(int)$RecordList['all_pensions'];
         $post=Yii::$app->request->post();
+        $last_record = (new GetPension())->getLastGetPensions($user_id);//计算两次领取老金月数差
+        $last_record_time = strtotime($last_record['create_time']);
+        $diff_data = (int)((time() - $last_record_time) / 86400);
+        if ($diff_data > 30)
+            $can_use = 1;
+        else
+            $can_use = 0;
         if(!empty($post)){
             $sum=(new CollectPensions())->SumPensions($user_id);
             $array['user_id']=$user_id;
@@ -298,7 +315,7 @@ class FrontendController extends Controller
             return json_encode('success');
         }
         $PensionsList=(new GetPension())->getPensionsList($user_id);
-        return $this->render('get-pensions',['PensionsList'=>$PensionsList['list'],'pagination'=>$PensionsList['pagination'],'need_month'=>$RecordList['need_month']]);
+        return $this->render('get-pensions',['PensionsList'=>$PensionsList['list'],'pagination'=>$PensionsList['pagination'],'need_month'=>$RecordList['need_month'],'can_use'=>$can_use]);
     }
 
 

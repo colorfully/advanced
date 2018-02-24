@@ -129,7 +129,7 @@ class Recruitment extends \yii\db\ActiveRecord
         $query = static::find();
         $count = $query->count();
         $pagination = new Pagination(['totalCount' => $count,'pageSize'=>2]);
-        $list = $query->offset($pagination->offset)->limit($pagination->limit)->orderBy('create_time desc')->asArray()->all();
+        $list = $query->where('unix_timestamp(deadline)>'.time())->offset($pagination->offset)->limit($pagination->limit)->orderBy('create_time desc')->asArray()->all();
         $data['list'] = $list;
         $data['pagination'] = $pagination;
         return $data;

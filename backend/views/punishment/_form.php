@@ -18,6 +18,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'create_time')->textInput([],'date') ?>
 
+    <?= $form->field($model, 'type')->dropDownList(['0'=>'惩罚','1'=>'赞许']) ?>
+
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? '创建' : '更新', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

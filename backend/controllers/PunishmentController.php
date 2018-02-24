@@ -70,6 +70,7 @@ class PunishmentController extends Controller
             $model->user_id=Yii::$app->request->get('id');
             $model->staff_info_id=Yii::$app->request->get('staff_id');
             $model->create_time=Yii::$app->request->post('Punishment')['create_time'].' '.$item[1];
+            $model->type=Yii::$app->request->post('Punishment')['type'];
             //获取写入该信息的用户ID
             $model->create_author_id=Yii::$app->user->identity->getId();
             $model->save();

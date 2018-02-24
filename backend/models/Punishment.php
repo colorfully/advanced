@@ -49,6 +49,7 @@ class Punishment extends \yii\db\ActiveRecord
             'create_author_id'=>'作者Id',
             'title'=>'标题',
             'content' => '内容',
+            'type' => '类型',
             'create_time' => '创建时间',
         ];
     }
